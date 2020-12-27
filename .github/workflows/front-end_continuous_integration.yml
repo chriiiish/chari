@@ -1,5 +1,5 @@
 # This runs infrastructure validation
-name: Infrastructure Validation
+name: Front-end CI
 
 # Controls when the action will run. 
 on:
@@ -8,12 +8,10 @@ on:
     branches:
       - '**'
     paths:
-      - 'back-end/infrastructure/**'
       - 'front-end/infrastructure/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'back-end/infrastructure/**'
       - 'front-end/infrastructure/**'
 
   # Allows you to run this workflow manually from the Actions tab
@@ -22,8 +20,8 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # Synthesize the CDK templates
-  synth-templates:
-    name: Synthesize CDK Templates
+  infra-synth-templates:
+    name: Infrastructure / Synthesize CDK Templates
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -34,5 +32,23 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: Echo Directory Contents
-        run: ls
+      - name: Change to infrastructure directory
+        run: cd $GITHUB_WORKSPACE/front-end/infrastructure
+
+      # Synthesize Templates
+    - name: CDK Synth
+      uses: youyo/aws-cdk-github-actions@v1
+      with:
+        cdk_subcommand: 'synth --output cdk.out'
+        cdk_version: '1.80.0'
+        working_dir: $GITHUB_WORKSPACE/front-end/infrastructure/
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: 'us-east-1'
+  
+    - name: Check folder structure
+      run: ls $GITHUB_WORKSPACE/front-end/infrastructure/
+
+    - name: Check folder structure CDK
+      run: ls $GITHUB_WORKSPACE/front-end/infrastructure/cdk.out/
