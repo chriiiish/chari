@@ -3,9 +3,10 @@ name: Infrastructure Validation
 
 # Controls when the action will run. 
 on:
-  # Do this for PRs and main merges for infrastructure folders only
+  # Do this for all changes on each branch and on PRs into main
   push:
-    branches: [ main ]
+    branches:
+      - '**'
     paths:
       - 'back-end/infrastructure/**'
       - 'front-end/infrastructure/**'
