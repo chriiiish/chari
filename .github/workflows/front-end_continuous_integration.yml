@@ -36,19 +36,19 @@ jobs:
         run: cd $GITHUB_WORKSPACE/front-end/infrastructure
 
       # Synthesize Templates
-    - name: CDK Synth
-      uses: youyo/aws-cdk-github-actions@v1
-      with:
-        cdk_subcommand: 'synth --output cdk.out'
-        cdk_version: '1.80.0'
-        working_dir: $GITHUB_WORKSPACE/front-end/infrastructure/
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: 'us-east-1'
-  
-    - name: Check folder structure
-      run: ls $GITHUB_WORKSPACE/front-end/infrastructure/
+      - name: CDK Synth
+        uses: youyo/aws-cdk-github-actions@v1
+        with:
+          cdk_subcommand: 'synth --output cdk.out'
+          cdk_version: '1.80.0'
+          working_dir: $GITHUB_WORKSPACE/front-end/infrastructure/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-east-1'
+    
+      - name: Check folder structure
+        run: ls $GITHUB_WORKSPACE/front-end/infrastructure/
 
-    - name: Check folder structure CDK
-      run: ls $GITHUB_WORKSPACE/front-end/infrastructure/cdk.out/
+      - name: Check folder structure CDK
+        run: ls $GITHUB_WORKSPACE/front-end/infrastructure/cdk.out/
