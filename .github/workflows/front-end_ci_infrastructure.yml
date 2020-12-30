@@ -31,13 +31,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Change to infrastructure directory
-        run: cd $GITHUB_WORKSPACE/front-end/infrastructure
-
-      - name: Generate Environment Temp Code
-        run: |
-          export ENVIRONMENT=$(openssl rand -hex 3);
-          echo ENVIRONMENT set to $ENVIRONMENT;
+      - name: Log temp environment code
+        run: echo $GITHUB_RUN_ID
 
       # Deploy fresh template
       - name: Deploy Template
@@ -50,7 +45,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
-          ENVIRONMENT: $ENVIRONMENT
+          ENVIRONMENT: $GITHUB_RUN_ID
     
       # Destroy fresh template
       - name: Destroy Template
@@ -63,4 +58,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
-          ENVIRONMENT: $ENVIRONMENT
+          ENVIRONMENT: $GITHUB_RUN_ID
