@@ -45,12 +45,12 @@ jobs:
           cdk_subcommand: 'deploy'
           cdk_version: '1.80.0'
           working_dir: front-end/infrastructure/
+          actions_comment: false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
           ENVIRONMENT_CODE: ${{ steps.custom_variables.outputs.SHA_SHORT }}
-          GITHUB_TOKEN: ${{ github.token }}
     
       # Destroy fresh template
       - name: Destroy Template
@@ -59,9 +59,9 @@ jobs:
           cdk_subcommand: 'destroy --force'
           cdk_version: '1.80.0'
           working_dir: front-end/infrastructure/
+          actions_comment: false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
           ENVIRONMENT_CODE: ${{ steps.custom_variables.outputs.SHA_SHORT }}
-          GITHUB_TOKEN: ${{ github.token }}
