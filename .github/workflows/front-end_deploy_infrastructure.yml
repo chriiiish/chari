@@ -18,7 +18,7 @@ jobs:
   # Test Deploy
   test-deploy:
     name: Test Deployment
-
+    environment: Test
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -46,7 +46,7 @@ jobs:
   # Prod Deploy
   prod-deploy:
     name: Prod Deployment
-
+    environment: Production
     needs: test-deploy
 
     # The type of runner that the job will run on
