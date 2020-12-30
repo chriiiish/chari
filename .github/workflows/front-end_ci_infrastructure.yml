@@ -35,7 +35,9 @@ jobs:
         run: cd $GITHUB_WORKSPACE/front-end/infrastructure
 
       - name: Generate Environment Temp Code
-        run: export ENVIRONMENT=$(openssl rand -hex 3)
+        run: |
+          export ENVIRONMENT=$(openssl rand -hex 3);
+          echo ENVIRONMENT set to $ENVIRONMENT;
 
       # Deploy fresh template
       - name: Deploy Template
