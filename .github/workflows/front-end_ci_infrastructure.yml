@@ -1,5 +1,5 @@
 # This runs infrastructure validation
-name: Front-end CI
+name: Front-end CI - Infrastructure
 
 # Controls when the action will run. 
 on:
@@ -20,8 +20,8 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # Synthesize the CDK templates
-  infra-synth-templates:
-    name: Infrastructure / Synthesize CDK Templates
+  test-fresh-deployment:
+    name: Fresh Deployment
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -31,15 +31,17 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
       - name: Change to infrastructure directory
         run: cd $GITHUB_WORKSPACE/front-end/infrastructure
 
-      # Synthesize Templates
-      - name: CDK Synth
+      - name: Generate Environment Temp Code
+        run: export ENVIRONMENT=$(openssl rand -hex 3)
+
+      # Deploy fresh template
+      - name: Deploy Template
         uses: youyo/aws-cdk-github-actions@v1
         with:
-          cdk_subcommand: 'synth --output cdk.out'
+          cdk_subcommand: 'deploy'
           cdk_version: '1.80.0'
           working_dir: $GITHUB_WORKSPACE/front-end/infrastructure/
         env:
@@ -47,8 +49,14 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
     
-      - name: Check folder structure
-        run: ls $GITHUB_WORKSPACE/front-end/infrastructure/
-
-      - name: Check folder structure CDK
-        run: ls $GITHUB_WORKSPACE/front-end/infrastructure/cdk.out/
+      # Destroy fresh template
+      - name: Destroy Template
+        uses: youyo/aws-cdk-github-actions@v1
+        with:
+          cdk_subcommand: 'destroy --force'
+          cdk_version: '1.80.0'
+          working_dir: $GITHUB_WORKSPACE/front-end/infrastructure/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-east-1'
