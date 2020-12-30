@@ -43,7 +43,7 @@ jobs:
         with:
           cdk_subcommand: 'deploy'
           cdk_version: '1.80.0'
-          working_dir: $GITHUB_WORKSPACE/front-end/infrastructure/
+          working_dir: front-end/infrastructure/
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -55,7 +55,7 @@ jobs:
         with:
           cdk_subcommand: 'destroy --force'
           cdk_version: '1.80.0'
-          working_dir: $GITHUB_WORKSPACE/front-end/infrastructure/
+          working_dir: front-end/infrastructure/
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
