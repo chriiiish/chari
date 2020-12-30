@@ -5,8 +5,6 @@ name: Front-end CI - Infrastructure
 on:
   # Do this for all changes on each branch and on PRs into main
   push:
-    branches:
-      - '**'
     branches-ignore:
       - main
     paths:
