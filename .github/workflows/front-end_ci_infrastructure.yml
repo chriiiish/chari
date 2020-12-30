@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - '**'
+    branches-ignore:
+      - main
     paths:
       - 'front-end/infrastructure/**'
   pull_request:
