@@ -34,8 +34,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Set outputs
+        id: custom_variables
+        run: echo "::set-output name=SHA_SHORT::$(git rev-parse --short HEAD)"
+
+      - name: Check outputs
+        run: echo ${{ steps.custom_variables.outputs.SHA_SHORT }}
+
       - name: Log temp environment code
-        run: echo ENVIRONMENT_CODE = $ENVIRONMENT_CODE
+        run: echo ENVIRONMENT_CODE = ${{ steps.custom_variables.outputs.SHA_SHORT }}
 
       # Deploy fresh template
       - name: Deploy Template
@@ -48,7 +55,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
-          ENVIRONMENT_CODE: ${{ env.ENVIRONMENT_CODE }}
+          ENVIRONMENT_CODE: ${{ steps.custom_variables.outputs.SHA_SHORT }}
     
       # Destroy fresh template
       - name: Destroy Template
@@ -61,4 +68,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
-          ENVIRONMENT_CODE: ${{ env.ENVIRONMENT_CODE }}
+          ENVIRONMENT_CODE: ${{ steps.custom_variables.outputs.SHA_SHORT }}
