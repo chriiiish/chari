@@ -33,10 +33,7 @@ jobs:
 
       - name: Set outputs
         id: custom_variables
-        run: echo "::set-output name=SHA_SHORT::$(git rev-parse --short HEAD)"
-
-      - name: Check outputs
-        run: echo ${{ steps.custom_variables.outputs.SHA_SHORT }}
+        run: echo "::set-output name=SHA_SHORT::$(echo $GITHUB_SHA | cut c1-7)"
 
       - name: Log temp environment code
         run: echo ENVIRONMENT_CODE = ${{ steps.custom_variables.outputs.SHA_SHORT }}
