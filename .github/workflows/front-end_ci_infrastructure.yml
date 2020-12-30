@@ -26,13 +26,16 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    env:
+      ENVIRONMENT_CODE: ${{ github.sha[0:8] }}
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Log temp environment code
-        run: echo ${GITHUB_SHA::8}
+        run: echo ENVIRONMENT_CODE = $ENVIRONMENT_CODE
 
       # Deploy fresh template
       - name: Deploy Template
@@ -45,7 +48,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
-          ENVIRONMENT: ${GITHUB_SHA::8}
+          ENVIRONMENT_CODE: ${{ env.ENVIRONMENT_CODE }}
     
       # Destroy fresh template
       - name: Destroy Template
@@ -58,4 +61,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
-          ENVIRONMENT: ${GITHUB_SHA::8}
+          ENVIRONMENT_CODE: ${{ env.ENVIRONMENT_CODE }}
