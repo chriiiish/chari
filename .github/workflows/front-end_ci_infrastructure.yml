@@ -31,11 +31,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Set outputs
+      - name: Set SHA short code
         id: custom_variables
-        run: echo "::set-output name=SHA_SHORT::$(echo $GITHUB_SHA | cut c1-7)"
+        run: echo "::set-output name=SHA_SHORT::$(git rev-parse --short HEAD)"
 
-      - name: Log temp environment code
+      - name: Log temp environment code (sha code)
         run: echo ENVIRONMENT_CODE = ${{ steps.custom_variables.outputs.SHA_SHORT }}
 
       # Deploy fresh template
