@@ -50,6 +50,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
           ENVIRONMENT_CODE: ${{ steps.custom_variables.outputs.SHA_SHORT }}
+          GITHUB_TOKEN: ${{ github.token }}
     
       # Destroy fresh template
       - name: Destroy Template
@@ -63,3 +64,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
           ENVIRONMENT_CODE: ${{ steps.custom_variables.outputs.SHA_SHORT }}
+          GITHUB_TOKEN: ${{ github.token }}
