@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Log temp environment code
-        run: echo $GITHUB_RUN_ID
+        run: echo ${GITHUB_SHA::8}
 
       # Deploy fresh template
       - name: Deploy Template
@@ -45,7 +45,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
-          ENVIRONMENT: ${{ GITHUB_RUN_ID }}
+          ENVIRONMENT: ${GITHUB_SHA::8}
     
       # Destroy fresh template
       - name: Destroy Template
@@ -58,4 +58,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
-          ENVIRONMENT: ${{ GITHUB_RUN_ID }}
+          ENVIRONMENT: ${GITHUB_SHA::8}
