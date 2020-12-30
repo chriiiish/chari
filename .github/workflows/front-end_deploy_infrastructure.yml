@@ -40,6 +40,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: 'us-east-1'
           ENVIRONMENT_CODE: test
+  
+  # This is where the automated tests will run eventually
 
   # Prod Deploy
   prod-deploy:
